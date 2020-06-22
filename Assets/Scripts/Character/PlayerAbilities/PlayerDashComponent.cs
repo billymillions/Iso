@@ -4,17 +4,17 @@ using System.Collections;
 
 namespace TimelineIso
 {
-    public class PlayerDashComponent : MonoBehaviour, PlayerAbility
+    public class PlayerDashComponent : PlayerAbilityComponent
     {
         private Coroutine routine;
         public float DashDuration = .2f;
         public float DashDistance = 5f;
 
-        public void Initialize()
+        public override void Initialize()
         {
         }
 
-        public void Finish()
+        public override void Finish()
         {
             if (this.routine !=null)
             {
@@ -24,9 +24,9 @@ namespace TimelineIso
             this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
         }
 
-        public InputHandledStatus HandleInput(IInputEvent input)
+        public override InputHandledStatus HandleInput(IInputEvent input)
         {
-            if (input is DashInput)
+            if (input is CommandInput i && i.targetAbility == this)
             {
                 DoDash();
                 return InputHandledStatus.Handled;
@@ -34,7 +34,7 @@ namespace TimelineIso
             return InputHandledStatus.Deny;
         }
 
-        public PlayerAbilityStatus Status()
+        public override PlayerAbilityStatus Status()
         {
             return (this.routine == null) ? PlayerAbilityStatus.Finished : PlayerAbilityStatus.Running;
         }

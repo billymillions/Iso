@@ -6,14 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace TimelineIso
 {
-    struct PlayerSlashState
-    {
-        int comboCounter;
-        bool allowInterrupt;
-        float comboTime;
-    };
-
-    public class PlayerSlashComponent : MonoBehaviour, PlayerAbility
+    public class PlayerSlashComponent : PlayerAbilityComponent
     {
 
         public float SlashSpeed = 1f;
@@ -41,22 +34,19 @@ namespace TimelineIso
         }
 
 
-        public void Initialize()
+        public override void Initialize()
         {
-            this.GetComponent<PlayerMovement>().SpeedMultiplier = 0f;
-            this.allowInterrupt = true;
-            this._status = PlayerAbilityStatus.Running;
         }
 
-        public PlayerAbilityStatus Status()
+        public override PlayerAbilityStatus Status()
         {
             return (this.allowInterrupt) ? PlayerAbilityStatus.Finished : PlayerAbilityStatus.Running;
         }
 
-        public InputHandledStatus HandleInput(IInputEvent input)
+        public override InputHandledStatus HandleInput(IInputEvent input)
         {
             var animator = GetComponent<Animator>();
-            if (this.allowInterrupt && input is AttackInput)
+            if (this.allowInterrupt && input is CommandInput ci && ci.targetAbility == this)
             {
                 this.ExecuteSlash();
                 return InputHandledStatus.Handled;
@@ -74,7 +64,7 @@ namespace TimelineIso
             //}
         }
 
-        public void Finish()
+        public override void Finish()
         {
             if (this.SwordComboInstance != null)
             {
@@ -101,10 +91,13 @@ namespace TimelineIso
 
         public void ExecuteSlash()
         {
+
             if (!this.GetComponent<CharacterStamina>().ConsumeStamina(30))
             {
                 return;
             }
+
+            this.GetComponent<PlayerMovement>().SpeedMultiplier = 0f;
             var animator = this.GetComponent<Animator>();
             this.allowInterrupt = false;
             if (this.comboRoutine != null)

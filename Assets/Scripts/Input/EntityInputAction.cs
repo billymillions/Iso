@@ -31,6 +31,14 @@ namespace TimelineIso
         }
     }
 
+    // TODO: get rid of this... this is not IInput
+    public struct CommandInput : IInputEvent
+    {
+        public ButtonInput button;
+        public PlayerAbility targetAbility;
+    }
+
+
     [System.Serializable]
     public struct MoveInput : IInputEvent
     {

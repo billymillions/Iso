@@ -48,11 +48,12 @@ namespace TimelineIso
 
             var pos = characterSelector.SelectedCharacterTransform.position;
             positions.Add(new Vector4(pos.x, pos.y, pos.z, 5));
-            if (characterSelector.Selected.GetComponent<PlayerController>().locked)
-            {
-                var p = characterSelector.Selected.GetComponent<PlayerController>().locked.transform.position;
-                positions.Add(new Vector4(p.x, p.y, p.z, 1));
-            }
+            // TODO
+            //if (characterSelector.Selected.GetComponent<PlayerController>().locked)
+            //{
+            //    var p = characterSelector.Selected.GetComponent<PlayerController>().locked.transform.position;
+            //    positions.Add(new Vector4(p.x, p.y, p.z, 1));
+            //}
 
             var average = new Vector3();
             var denom = 0f;

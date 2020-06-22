@@ -1249,6 +1249,30 @@ MonoBehaviour:
   ChargeEffectPrefab: {fileID: 5148676812447315914, guid: 728e8ce80fc8aee4fa22b76d73b66a89,
     type: 3}
   Command: Charge
+--- !u!114 &292038816 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6070116513582967453, guid: e67171f73b052c64888c04acec7906a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6070116513831993913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292038809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54daa6b1dad09e24cbab3fec1d0c8b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &292038817 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6070116513582967451, guid: e67171f73b052c64888c04acec7906a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6070116513831993913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 292038809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda727673305503478a1c76f097276b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &301076974
 GameObject:
   m_ObjectHideFlags: 0
@@ -6811,6 +6835,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[0].ability
+      value: 
+      objectReference: {fileID: 292038816}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[0].command
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[1].command
+      value: Charge
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[1].ability
+      value: 
+      objectReference: {fileID: 292038815}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[2].ability
+      value: 
+      objectReference: {fileID: 292038817}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[2].command
+      value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[0].commandName
+      value: Dash
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[1].commandName
+      value: Charge
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070116513582967461, guid: e67171f73b052c64888c04acec7906a0,
+        type: 3}
+      propertyPath: abilities.Array.data[2].commandName
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 6070116513582967462, guid: e67171f73b052c64888c04acec7906a0,
         type: 3}

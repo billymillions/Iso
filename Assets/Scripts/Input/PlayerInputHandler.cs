@@ -96,6 +96,14 @@ namespace TimelineIso
         {
             var attack = new AttackInput { };
             inputBuffer.AddInput(CharSelector.SelectedCharacter, attack);
+            var button = new ButtonInput
+            {
+                is_press = value.isPressed,
+                is_release = !value.isPressed,
+                button_name = "Attack",
+                value = value.Get<float>()
+            };
+            inputBuffer.AddInput(CharSelector.SelectedCharacter, button);
         }
 
         // Update is called once per frame
@@ -120,7 +128,15 @@ namespace TimelineIso
         public void OnDash(InputValue value)
         {
             var dash = new DashInput { };
+            var button = new ButtonInput
+            {
+                is_press = value.isPressed,
+                is_release = !value.isPressed,
+                button_name = "Dash",
+                value = value.Get<float>()
+            };
             inputBuffer.AddInput(CharSelector.SelectedCharacter, dash);
+            inputBuffer.AddInput(CharSelector.SelectedCharacter, button);
         }
 
         public void OnSnap(InputValue value)

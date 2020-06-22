@@ -40,6 +40,16 @@ namespace TimelineIso
         InputHandledStatus HandleInput(IInputEvent input);
         void Finish();
     }
+    public abstract class PlayerAbilityComponent : MonoBehaviour, PlayerAbility
+    {
+        abstract public void Finish();
+
+        abstract public InputHandledStatus HandleInput(IInputEvent input);
+
+        abstract public void Initialize();
+
+        abstract public PlayerAbilityStatus Status();
+    }
 
     //public interface PlayerAbilityStatus
     //{

@@ -22,23 +22,23 @@ public class Enemy : MonoBehaviour
     {
         var renderer = this.GetComponent<MeshRenderer>();
         var mats = this.GetComponent<MeshRenderer>().materials;
-        if (this.charSelector.Selected.GetComponent<TimelineIso.PlayerController>().locked == this)
-        {
-            this.highlighted = true;
-            renderer.materials[1] = this.highlightMaterial;
-            //mats[0] = this.highlightMaterial;
-            //renderer.materials = mats;
+        //if (this.charSelector.Selected.GetComponent<TimelineIso.PlayerController>().locked == this)
+        //{
+        //    this.highlighted = true;
+        //    renderer.materials[1] = this.highlightMaterial;
+        //    //mats[0] = this.highlightMaterial;
+        //    //renderer.materials = mats;
 
-            //    new Material[] {
-            //    Resources.Load<Material>("Materials/Highlighted")
-            //};
-        } else {
-            this.highlighted = false;
-            renderer.materials[1] = null;
-            //this.GetComponent<MeshRenderer>().materials = new Material[] {
-            //    Resources.Load<Material>("Materials/Flat")
-            //};
-        }
+        //    //    new Material[] {
+        //    //    Resources.Load<Material>("Materials/Highlighted")
+        //    //};
+        //} else {
+        //    this.highlighted = false;
+        //    renderer.materials[1] = null;
+        //    //this.GetComponent<MeshRenderer>().materials = new Material[] {
+        //    //    Resources.Load<Material>("Materials/Flat")
+        //    //};
+        //}
     }
 
 }
