@@ -131,7 +131,7 @@ namespace TimelineIso
                     }
                      else if (action is ButtonInput)
                     {
-                        this.currentAbility = this.GetComponent<PlayerJumpComponentValueDriven>();
+                        this.currentAbility = this.GetComponent<PlayerRushComponent>();
                         //break;
                     } else
                     {
