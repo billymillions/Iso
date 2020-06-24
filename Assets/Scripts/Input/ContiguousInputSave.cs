@@ -20,7 +20,7 @@ namespace TimelineIso
         //    Tuple.Create("one", "two"),
         //};
 
-        private string[] commands = { "Charge", "Shoot" };
+        private string[] commands = { "Charge", "Shoot", "Dash", "Attack" };
         private string[] vectorCommands = { "Move" };
 
         private Dictionary<string, object> commandDict = new Dictionary<string, object>();

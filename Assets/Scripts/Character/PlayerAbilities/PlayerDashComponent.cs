@@ -26,7 +26,7 @@ namespace TimelineIso
 
         public override InputHandledStatus HandleInput(IInputEvent input)
         {
-            if (input is CommandInput i && i.targetAbility == this)
+            if (input is CommandInput i && i.targetAbility == this && i.button.is_press)
             {
                 DoDash();
                 return InputHandledStatus.Handled;

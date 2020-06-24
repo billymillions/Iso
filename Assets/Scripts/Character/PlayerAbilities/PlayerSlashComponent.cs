@@ -46,7 +46,7 @@ namespace TimelineIso
         public override InputHandledStatus HandleInput(IInputEvent input)
         {
             var animator = GetComponent<Animator>();
-            if (this.allowInterrupt && input is CommandInput ci && ci.targetAbility == this)
+            if (this.allowInterrupt && input is CommandInput ci && ci.button.is_press && ci.targetAbility == this)
             {
                 this.ExecuteSlash();
                 return InputHandledStatus.Handled;

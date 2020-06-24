@@ -51,7 +51,9 @@ namespace TimelineIso
             {
                 other.gameObject.GetComponent<CharacterHealth>().InflictDamage(10);
             }
-            Destroy(this.gameObject);
+            this.Speed = 0;
+            this.GetComponent<Renderer>().enabled = false;
+            Destroy(this.gameObject, .3f);
         }
     }
 }

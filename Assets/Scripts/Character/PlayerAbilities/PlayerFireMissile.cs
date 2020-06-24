@@ -14,6 +14,8 @@ namespace TimelineIso
         public float Falloff = 10f;
         public Missile MissilePrefab;
         public Transform SpawnLocation;
+        public float FireDuration = .1f;
+        private bool busy;
 
         public override void Initialize()
         {
@@ -38,17 +40,34 @@ namespace TimelineIso
 
         public override PlayerAbilityStatus Status()
         {
-            return PlayerAbilityStatus.Finished;
+            return (busy) ? PlayerAbilityStatus.Running : PlayerAbilityStatus.Finished;
         }
 
         public override InputHandledStatus HandleInput(IInputEvent input)
         {
-            if (input is CommandInput c && c.button.is_press && c.targetAbility == this)
+            if (input is CommandInput c && c.targetAbility == this)
             {
-                Fire();
+                if (!busy)
+                {
+                    StartCoroutine(RunFire());
+                }
+                else if (c.button.is_press)
+                {
+                    return InputHandledStatus.Deny;
+                }
                 return InputHandledStatus.Handled;
             }
             return InputHandledStatus.Deny;
+        }
+
+        public IEnumerator RunFire()
+        {
+            this.GetComponent<PlayerMovement>().SpeedMultiplier = 0;
+            this.busy = true;
+            yield return new WaitForSeconds(FireDuration);
+            this.Fire();
+            this.busy = false;
+            this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
         }
 
         void Start()
