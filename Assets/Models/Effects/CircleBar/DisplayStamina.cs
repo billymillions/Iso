@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TimelineIso;
 using UnityEngine;
+
+namespace TimelineIso
+{
 
 public class DisplayStamina : MonoBehaviour
 {
@@ -28,4 +30,5 @@ public class DisplayStamina : MonoBehaviour
 
         this.mesh.materials[0].SetColor("_Color", (this.pc.IsBusy) ? Color.gray : Color.white);
     }
+}
 }

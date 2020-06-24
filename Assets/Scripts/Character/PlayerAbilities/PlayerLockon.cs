@@ -47,6 +47,25 @@ namespace TimelineIso
             }
         }
 
+        public Enemy ClosestSighted(Vector3 look)
+        {
+            var normalized = look.normalized;
+            var min = -10000;
+            Enemy newLock = null;
+
+            foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
+            {
+                var enemyRay = (enemy.transform.position - this.transform.position).XZPlane().normalized;
+                var dot = Vector3.Dot(normalized, enemyRay);
+                if (dot > min)
+                {
+                    newLock = enemy;
+                }
+            }
+            return newLock;
+        }
+
+
         public void LockOn(Vector3 look)
         {
             if (look.magnitude < .8)
@@ -61,7 +80,7 @@ namespace TimelineIso
             foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
             {
                 var enemyRay = (enemy.transform.position - this.transform.position).XZPlane().normalized;
-                var dot = Vector3.Dot(look, enemyRay);
+                var dot = Vector3.Dot(normalized, enemyRay);
                 if (dot > min)
                 {
                     newLock = enemy;

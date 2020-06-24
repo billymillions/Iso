@@ -35,11 +35,11 @@ namespace TimelineIso
             this.entityComponent = this.GetComponent<EntityComponent>();
         }
 
-        public void InflictDamage(int damage)
+        public void InflictDamage(float damage)
         {
             this.Health.current -= damage;
             this.Health.current = Math.Max(this.Health.current, 0);
-            Damage.Invoke(damage);
+            Damage.Invoke((int)damage);
         }
 
         public void FixedUpdate()

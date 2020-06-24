@@ -111,6 +111,14 @@ namespace TimelineIso
         {
             var shoot = new ShootInput { };
             inputBuffer.AddInput(CharSelector.SelectedCharacter, shoot);
+            var button = new ButtonInput
+            {
+                is_press = value.isPressed,
+                is_release = !value.isPressed,
+                button_name = "Shoot",
+                value = value.Get<float>()
+            };
+            inputBuffer.AddInput(CharSelector.SelectedCharacter, button);
         }
         public void OnCharge(InputValue value)
         {
