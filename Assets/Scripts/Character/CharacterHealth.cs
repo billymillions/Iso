@@ -11,6 +11,7 @@ namespace TimelineIso
     {
         public float current;
         public float max;
+        public float shield;
     }
 
     [System.Serializable]

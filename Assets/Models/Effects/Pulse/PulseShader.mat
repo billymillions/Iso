@@ -27,6 +27,6 @@ Material:
     - _StartTime: -1
     - _Thickness: 0.3
     - _UseTime: 1
-    - _arc: 1
+    - _arc: 0.2
     m_Colors:
     - _Color: {r: 0, g: 1, b: 0.9419038, a: 1}

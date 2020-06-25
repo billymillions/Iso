@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 namespace TimelineIso
 {
@@ -11,7 +12,9 @@ namespace TimelineIso
     {
         private CharacterHealth characterHealth;
         private CanvasGroup healthBarGroup;
+        private RectTransform containerRect;
         private RectTransform healthBarRect;
+        private RectTransform shieldBarRect;
         public Text damageDisplay;
         private float lastScale = 1f;
 
@@ -20,7 +23,9 @@ namespace TimelineIso
         {
             this.characterHealth = this.GetComponentInParent<CharacterHealth>();
             this.healthBarGroup = this.GetComponent<CanvasGroup>();
+            this.containerRect = this.GetComponent<RectTransform>();
             this.healthBarRect = this.transform.GetChild(0).GetComponent<RectTransform>();
+            this.shieldBarRect = this.transform.GetChild(1).GetComponent<RectTransform>();
             this.characterHealth.Damage.AddListener(DisplayDamage);
         }
 
@@ -37,17 +42,20 @@ namespace TimelineIso
         // Update is called once per frame
         void Update()
         {
-            if (characterHealth.Health.current < characterHealth.Health.max)
+            var health = this.characterHealth.Health;
+            if (health.current < health.max || health.shield > 0)
             {
                 this.healthBarGroup.alpha = 1;
             } else
             {
                 this.healthBarGroup.alpha = 0;
             }
-            this.lastScale = Mathf.Lerp(lastScale, characterHealth.Health.current / characterHealth.Health.max, 10 * Time.deltaTime);
-
-            this.healthBarRect.localScale = new Vector3(lastScale, 1, 1);
-
+            var max = Math.Max((health.current + health.shield), health.max);
+            var width = this.containerRect.rect.width;
+            var healthWidth = width * health.current / max;
+            var shieldWidth = width * health.shield / max;
+            healthBarRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, 0, healthWidth);
+            shieldBarRect.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, healthWidth, shieldWidth);
         }
 
         IEnumerator FadeOut(Text t, float time)

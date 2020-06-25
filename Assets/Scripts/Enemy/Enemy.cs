@@ -5,6 +5,8 @@ using TimelineIso;
 public class Enemy : MonoBehaviour
 {
     private CharacterSelector charSelector;
+    private EntityComponent target;
+
     [SerializeField]
     public bool highlighted;
     [SerializeField]
@@ -16,6 +18,12 @@ public class Enemy : MonoBehaviour
         this.charSelector = GameObject.Find("CharSelector").GetComponent<CharacterSelector>();
         this.highlighted = false;
         this.defaultMaterial = this.GetComponent<MeshRenderer>().materials[0];
+    }
+
+    public bool SetTarget(EntityComponent ec)
+    {
+        this.target = ec;
+        return true;
     }
 
     public void Update()

@@ -73,7 +73,12 @@ namespace TimelineIso
 
         private void OnCollision(Collider collider)
         {
-            Debug.Log(collider);
+            var enemy = collider.GetComponent<Enemy>();
+            if (enemy)
+            {
+                this.GetComponent<CharacterHealth>().Health.shield += 20;
+                enemy.SetTarget(this.GetComponent<EntityComponent>());
+            }
         }
 
     }
