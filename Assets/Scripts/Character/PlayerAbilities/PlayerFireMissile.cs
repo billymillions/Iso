@@ -66,6 +66,7 @@ namespace TimelineIso
             this.busy = true;
             yield return new WaitForSeconds(FireDuration);
             this.Fire();
+            yield return new WaitForSeconds(FireDuration);
             this.busy = false;
             this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
         }

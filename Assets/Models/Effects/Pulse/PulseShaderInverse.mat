@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SquiggleTail
-  m_Shader: {fileID: -6465566751694194690, guid: ff326b1e22473b2409f19a44279f3b78,
+  m_Name: PulseShaderInverse
+  m_Shader: {fileID: -6465566751694194690, guid: 4b1537c0750c56c44a904ed48206e480,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -21,10 +21,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - _Noise: 0.9
-    - _Scale: 0.74
-    - _Seed: 1.29
-    - _Thickness: 0.65
+    - _Duration: 1
+    - _Radius: 0.5
+    - _Reverse: 1
+    - _StartTime: -1
+    - _Thickness: 0.3
+    - _UseTime: 0
+    - _arc: 1
     m_Colors:
-    - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.4211463, g: 0.8045069, b: 0.9811321, a: 0}
+    - _Color: {r: 0.5283019, g: 0.10715558, b: 0.13512172, a: 0.6039216}

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SquiggleTail
+  m_Name: SquiggleTail2
   m_Shader: {fileID: -6465566751694194690, guid: ff326b1e22473b2409f19a44279f3b78,
     type: 3}
   m_ShaderKeywords: 
@@ -21,10 +21,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - _Noise: 0.9
-    - _Scale: 0.74
+    - _Noise: 0.91
+    - _Scale: 0.97
     - _Seed: 1.29
-    - _Thickness: 0.65
+    - _Thickness: 0.86
     m_Colors:
     - _Border: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.4211463, g: 0.8045069, b: 0.9811321, a: 0}
+    - _Color: {r: 0.98039216, g: 0.44145334, b: 0.41960782, a: 0}
