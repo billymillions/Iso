@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
+using JetBrains.Annotations;
 
 namespace TimelineIso
 {
@@ -12,6 +13,9 @@ namespace TimelineIso
         public float MinHold = .2f;
         public float ChargeTime = .5f;
         public float ShoutSize = 3f;
+        public float Separation = 2f;
+        public float PullDistance = 5f;
+        public float PullDuration = .2f;
         public ChargeEffect ChargeEffectPrefab;
         public EventColliderComponent ShoutColliderPrefab;
 
@@ -57,6 +61,7 @@ namespace TimelineIso
             var renderer = collider.GetComponent<Renderer>();
             renderer.material.SetFloat("_StartTime", Time.time);
             renderer.material.SetFloat("_Duration", ShoutDuration);
+            collider.Duration = ShoutDuration;
             collider.OnCollide.AddListener(this.OnCollision);
             StartCoroutine(Cooldown());
 
@@ -78,6 +83,10 @@ namespace TimelineIso
             {
                 this.GetComponent<CharacterHealth>().Health.shield += 20;
                 enemy.SetTarget(this.GetComponent<EntityComponent>());
+                var distance = (this.transform.position - enemy.transform.position).XZPlane();
+                var pullDistance = Mathf.Min(distance.magnitude - Separation, PullDistance);
+                var impulse = distance.normalized * pullDistance;
+                enemy.GetComponent<Impulse>().Displace(impulse, PullDuration);
             }
         }
 

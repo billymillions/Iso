@@ -79,7 +79,7 @@ namespace TimelineIso
             effect.transform.parent = null;
             effect.transform.localScale = new Vector3(ExplosionSize, ExplosionSize, ExplosionSize); // TODO: uhh
             effect.material.SetFloat("_StartTime", this.chargeStart);
-            effect.material.SetFloat("_ChargeTime", this.ChargeTime);
+            effect.material.SetFloat("_Duration", this.ChargeTime);
             this.ChargeEffectInstance = effect.gameObject;
             StartCoroutine(ChargeCoroutine(buttonName));
         }
@@ -120,7 +120,7 @@ namespace TimelineIso
         {
             // TODO: make ring unit scale and have a scale factor here on this command
             chargeTime = Math.Min(chargeTime, ChargeTime);
-            var explodeScale = (chargeTime / ChargeTime) * diam;
+            var explodeScale = (chargeTime / ChargeTime) * ExplosionSize;
             var renderer = Instantiate(this.ExplodeEffectPrefab, target.XZPlane(), Quaternion.identity);
             this.ExplodeEffectInstance = renderer.gameObject;
             this.ExplodeEffectInstance.transform.localScale = new Vector3(explodeScale, explodeScale, explodeScale);

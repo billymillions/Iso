@@ -5,9 +5,8 @@ using System;
 namespace TimelineIso
 {
 
-    [RequireComponent(typeof(PlayerController))]
     [RequireComponent(typeof(EntityComponent))]
-    public class CharacterSave : MonoBehaviour
+    public class EntitySave : MonoBehaviour
     {
         private Timeline timeline;
         private EntityComponent entityComponent;

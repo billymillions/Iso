@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
 namespace TimelineIso
 {
@@ -12,11 +13,16 @@ namespace TimelineIso
     {
         public UnityEvent<Collider> OnCollide = new CollideEvent();
         public float Duration = 0f;
+        private HashSet<Collider> collisions = new HashSet<Collider>();
 
         // Update is called once per frame
         private void OnTriggerEnter(Collider other)
         {
-            OnCollide.Invoke(other);
+            if (!collisions.Contains(other))
+            {
+                collisions.Add(other);
+                OnCollide.Invoke(other);
+            }
         }
 
         private void Start()

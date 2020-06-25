@@ -32,8 +32,9 @@ namespace TimelineIso
         private IEnumerator PulseRoutine(GameObject pulse)
         {
             pulse.GetComponent<Renderer>().material.SetFloat("_StartTime", Time.time);
-            pulse.GetComponent<Renderer>().material.SetFloat("_Duration", PulseDuration * .9f);
+            pulse.GetComponent<Renderer>().material.SetFloat("_Duration", PulseDuration * 1f);
             pulse.GetComponent<EventColliderComponent>().OnCollide.AddListener((Collider col) => this.OnCollision(pulse, col));
+            pulse.GetComponent<EventColliderComponent>().Duration = PulseDuration;
             yield return new WaitForSeconds(PulseDuration);
             Destroy(pulse);
         }
@@ -45,9 +46,10 @@ namespace TimelineIso
             {
                 return;
             }
-            var direction = (collider.transform.position - pulse.transform.position).XZPlane();
+            //var direction = (collider.transform.position - pulse.transform.position).XZPlane();
+            var direction = this.transform.forward.XZPlane();
             direction = direction.normalized;
-            collider.GetComponent<Rigidbody>().AddForce(direction * Force, ForceMode.Impulse);
+            collider.GetComponent<Impulse>().Displace(direction * Force, .2f);
             return;
         }
 

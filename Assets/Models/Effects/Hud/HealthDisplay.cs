@@ -72,9 +72,5 @@ namespace TimelineIso
             Destroy(t.gameObject);
         }
 
-
-    
-
-
     }
 }
