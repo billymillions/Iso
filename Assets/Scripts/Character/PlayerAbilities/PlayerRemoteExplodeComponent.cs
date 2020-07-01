@@ -20,7 +20,6 @@ namespace TimelineIso
         private float chargeStart;
         private GameObject ChargeEffectInstance;
         private GameObject ExplodeEffectInstance;
-        private float diam;
         private ContiguousInputSave contiguousInput;
         private PlayerInput playerInput;
         private GlobalInputCache globalInput;
@@ -88,31 +87,30 @@ namespace TimelineIso
         {
             var movement = this.GetComponent<PlayerMovement>();
             var entityId = this.GetComponent<EntityComponent>().identifier;
-            var start = Time.time;
             movement.SpeedMultiplier = 0f;
+            var totalTime = 0f;
 
             while (this.contiguousInput.ReadValue<float>(entityId, buttonName) > 0)
             {
-                this.ChargeEffectInstance.transform.Translate(movement.Velocity * Time.deltaTime, Space.World);
+                this.ChargeEffectInstance.transform.Translate(movement.Velocity * Time.fixedDeltaTime, Space.World);
                 var facing = (ChargeEffectInstance.transform.position - this.transform.position).XZPlane().normalized;
                 if (facing.magnitude > 0)
                 {
                     this.transform.forward = facing;
                 }
-                yield return null;
+                yield return new WaitForFixedUpdate();
+                totalTime += Time.fixedDeltaTime;
             }
 
-            if (Time.time - start <= this.MinHold)
+            if (totalTime <= this.MinHold)
             {
                 Finish();
             }
             else
             {
                 var position = this.ChargeEffectInstance.transform.position;
-                //TODO
-                this.diam = this.ChargeEffectInstance.GetComponent<Renderer>().bounds.size.x;
                 Destroy(this.ChargeEffectInstance);
-                StartCoroutine(ExplodeCoroutine(Time.time - start, position));
+                StartCoroutine(ExplodeCoroutine(totalTime, position));
             }
         }
 
@@ -125,17 +123,21 @@ namespace TimelineIso
             this.ExplodeEffectInstance = renderer.gameObject;
             this.ExplodeEffectInstance.transform.localScale = new Vector3(explodeScale, explodeScale, explodeScale);
             this.ExplodeEffectInstance.GetComponent<ExplosionCollider>().DamageMultiplier = chargeTime / ChargeTime;
-            var startTime = Time.time;
+            var frames = this.ExplodeDuration / Time.fixedDeltaTime;
 
             renderer.material.SetFloat("_Height", .9f);
             renderer.material.SetFloat("_Thickness", .4f);
-            while (Time.time <= startTime + ExplodeDuration)
+
+            for (int i = 0; i <= frames; i++)
             {
-                // TODO: time calc can happen in shader rather than this loop;
-                var deltaT = (Time.time - startTime) / ExplodeDuration;
-                renderer.material.SetFloat("_Height", 1 - 2*deltaT);
-                yield return null;
+                // TODO: time-based shader
+                var t = ((float)i) / frames;
+                renderer.material.SetFloat("_Height", 1 - 2*t);
+                yield return new WaitForFixedUpdate();
             }
+            Debug.Log(target.x);
+            Debug.Log(target.z);
+            Debug.Log(chargeTime);
             Finish();
         }
         private void ClearState()

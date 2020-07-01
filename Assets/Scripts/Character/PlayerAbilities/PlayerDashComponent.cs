@@ -21,12 +21,13 @@ namespace TimelineIso
                 StopCoroutine(this.routine);
                 this.routine = null;
             }
-            this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
+            var movement = this.GetComponent<PlayerMovement>();
+            movement.SpeedMultiplier = 1f;
         }
 
         public override InputHandledStatus HandleInput(IInputEvent input)
         {
-            if (input is CommandInput i && i.targetAbility == this && i.button.is_press)
+            if (input is CommandInput i && i.targetAbility == this && i.button.is_press && this.Status() != PlayerAbilityStatus.Running)
             {
                 DoDash();
                 return InputHandledStatus.Handled;
@@ -52,24 +53,21 @@ namespace TimelineIso
         IEnumerator DashCoroutine()
         {
             var movement = this.GetComponent<PlayerMovement>();
+            var rigidbody = this.GetComponent<Rigidbody>();
+
             var direction = movement.Velocity.XZPlane().normalized;
-            movement.SpeedMultiplier = 0f;
-            var startTime = Time.time;
-            var endTime = startTime + this.DashDuration;
             var pos = this.transform.position;
             var target = pos + direction * DashDistance;
+            var frames = (int)(this.DashDuration / Time.fixedDeltaTime);
 
-            var rigidbody = this.GetComponent<Rigidbody>();
-            rigidbody.isKinematic = true;
-            while (Time.time < endTime)
+            movement.enabled = false;
+            for (int i = 0; i <= frames; i++)
             {
-                var t = (Time.time - startTime) / DashDuration;
-                t = Mathf.Pow(t, 0.5f);
-                this.transform.position = Vector3.Lerp(pos, target, t);
-                yield return null;
+                var t = ((float)i) / frames;
+                rigidbody.MovePosition(Vector3.Lerp(pos, target, t));
+                yield return new WaitForFixedUpdate();
             }
-            this.transform.position = target;
-            rigidbody.isKinematic = false;
+            movement.enabled = true;
             this.Finish();
         }
     }

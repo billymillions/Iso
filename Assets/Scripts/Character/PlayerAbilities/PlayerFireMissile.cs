@@ -62,6 +62,8 @@ namespace TimelineIso
 
         public IEnumerator RunFire()
         {
+            Debug.Log(this.transform.position.x);
+            Debug.Log(this.transform.position.z);
             this.GetComponent<PlayerMovement>().SpeedMultiplier = 0;
             this.busy = true;
             yield return new WaitForSeconds(FireDuration);

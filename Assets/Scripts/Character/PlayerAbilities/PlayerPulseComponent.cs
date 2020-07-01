@@ -31,17 +31,24 @@ namespace TimelineIso
 
         private IEnumerator PulseRoutine(GameObject pulse)
         {
-            pulse.GetComponent<Renderer>().material.SetFloat("_StartTime", Time.time);
+            if (! Time.inFixedTimeStep)
+            {
+                Debug.Log("Wut");
+            }
+            pulse.GetComponent<Renderer>().material.SetFloat("_StartTime", Time.fixedTime);
             pulse.GetComponent<Renderer>().material.SetFloat("_Duration", PulseDuration * 1f);
             pulse.GetComponent<EventColliderComponent>().OnCollide.AddListener((Collider col) => this.OnCollision(pulse, col));
             pulse.GetComponent<EventColliderComponent>().Duration = PulseDuration;
-            yield return new WaitForSeconds(PulseDuration);
+            yield return new WaitForFixedSeconds(PulseDuration);
+            if (! Time.inFixedTimeStep)
+            {
+                Debug.Log("More understandable, but wut");
+            }
             Destroy(pulse);
         }
 
         private void OnCollision(GameObject pulse, Collider collider)
         {
-            Debug.Log(collider);
             if (collider.GetComponent<Enemy>() == null)
             {
                 return;
@@ -73,11 +80,12 @@ namespace TimelineIso
         {
             this.GetComponent<PlayerMovement>().SpeedMultiplier = 0;
             this.busy = true;
-            yield return new WaitForSeconds(FireDuration);
+            yield return new WaitForFixedSeconds(FireDuration);
             this.Fire();
-            yield return new WaitForSeconds(FireDuration);
+            yield return new WaitForFixedSeconds(FireDuration);
             this.busy = false;
             this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
+            yield return null;
         }
 
         void Start()

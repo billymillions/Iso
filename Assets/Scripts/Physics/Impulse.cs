@@ -36,29 +36,26 @@ namespace TimelineIso
         private IEnumerator RunDisplace(Vector3 vector, float duration)
         {
             //this.kinematic = false;
-            var startTime = Time.time;
-            var remainingDisplacement = vector;
+            //var startTime = Time.time;
+            //var remainingDisplacement = vector;
             var totalDisplacement = Vector3.zero;
             var origPosition = this.transform.position;
 
-            this.rb.isKinematic = false;
+            //this.rb.isKinematic = false;
             for(int i = 0; i < 10; i++)
             {
                 yield return new WaitForFixedUpdate();
                 var v = vector / 10f;
-                this.rb.MovePosition(this.transform.position + v);
+                //this.rb.MovePosition(this.transform.position + v);
+                this.transform.Translate(v, Space.World);
                 totalDisplacement += v;
                 //Debug.Log(v);
                 //Debug.Log(this.transform.position);
                 //Debug.Log(this.transform.position.x);
             }
             yield return new WaitForFixedUpdate();
-            this.rb.isKinematic = true;
+            //this.rb.isKinematic = true;
             //this.kinematic = true;
-            Debug.Log(vector.magnitude);
-            Debug.Log(totalDisplacement.magnitude);
-            Debug.Log((totalDisplacement - vector).magnitude);
-            Debug.Log((this.transform.position - origPosition).magnitude);
             //while (totalDisplacement.magnitude < vector.magnitude)
             //{
             //    var increment = vector * Time.deltaTime / duration;
