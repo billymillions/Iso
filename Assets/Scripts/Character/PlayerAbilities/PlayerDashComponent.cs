@@ -54,8 +54,9 @@ namespace TimelineIso
         {
             var movement = this.GetComponent<PlayerMovement>();
             var rigidbody = this.GetComponent<Rigidbody>();
+            var em = this.GetComponent<EntityMove>();
 
-            var direction = movement.Velocity.XZPlane().normalized;
+            var direction = movement.MovementForward;
             var pos = this.transform.position;
             var target = pos + direction * DashDistance;
             var frames = (int)(this.DashDuration / Time.fixedDeltaTime);
@@ -64,7 +65,8 @@ namespace TimelineIso
             for (int i = 0; i <= frames; i++)
             {
                 var t = ((float)i) / frames;
-                rigidbody.MovePosition(Vector3.Lerp(pos, target, t));
+                //rigidbody.MovePosition(Vector3.Lerp(pos, target, t));
+                em.MovePosition(Vector3.Lerp(pos, target, t));
                 yield return new WaitForFixedUpdate();
             }
             movement.enabled = true;

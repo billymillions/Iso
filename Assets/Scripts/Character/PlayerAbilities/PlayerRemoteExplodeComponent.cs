@@ -135,9 +135,6 @@ namespace TimelineIso
                 renderer.material.SetFloat("_Height", 1 - 2*t);
                 yield return new WaitForFixedUpdate();
             }
-            Debug.Log(target.x);
-            Debug.Log(target.z);
-            Debug.Log(chargeTime);
             Finish();
         }
         private void ClearState()

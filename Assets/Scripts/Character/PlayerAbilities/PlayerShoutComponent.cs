@@ -71,7 +71,7 @@ namespace TimelineIso
         {
             var movement = this.GetComponent<PlayerMovement>();
             movement.SpeedMultiplier = 0; 
-            yield return new WaitForSeconds(ShoutDuration);
+            yield return new WaitForFixedSeconds(ShoutDuration);
             movement.SpeedMultiplier = 1f; 
             this.busy = false;
         }

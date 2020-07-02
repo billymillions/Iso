@@ -25,6 +25,7 @@ namespace TimelineIso
         public float Duration;
 
         private float startTime;
+        private float timeElapsed;
         private ContiguousInputSave input;
 
         private void Start()
@@ -36,6 +37,7 @@ namespace TimelineIso
             renderer.material.SetFloat("_ChargeTime", this.Duration);
             this.transform.localScale = Vector3.one * Scale;
             this.startTime = Time.time;
+            this.timeElapsed = 0f;
         }
 
         public void Initialize(EntityIdentifier identifier, string command, float scale, float duration)
@@ -54,13 +56,13 @@ namespace TimelineIso
 
         private void FixedUpdate()
         {
-            var duration = Time.time - startTime;
             if (this.input.ReadValue<float>(Identifier, Command) <= .2)
             {
-                var progress = Mathf.Min(duration / Duration, 1f);
+                var progress = Mathf.Min(this.timeElapsed / Duration, 1f);
                 OnCharged.Invoke(new ChargeResult { complete = true, progress = progress, effect = this});
                 Destroy(this.gameObject);
             }
+            this.timeElapsed += Time.fixedDeltaTime;
         }
     }
  }

@@ -13,14 +13,14 @@ namespace TimelineIso
     {
         public UnityEvent<Collider> OnCollide = new CollideEvent();
         public float Duration = 0f;
-        private HashSet<Collider> collisions = new HashSet<Collider>();
+        private HashSet<GameObject> collisions = new HashSet<GameObject>();
 
         // Update is called once per frame
         private void OnTriggerEnter(Collider other)
         {
-            if (!collisions.Contains(other))
+            if (!collisions.Contains(other.gameObject))
             {
-                collisions.Add(other);
+                collisions.Add(other.gameObject);
                 OnCollide.Invoke(other);
             }
         }

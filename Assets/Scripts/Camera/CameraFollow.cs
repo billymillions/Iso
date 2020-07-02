@@ -31,7 +31,7 @@ namespace TimelineIso
         }
 
         // Update is called once per frame
-        void Update()
+        void FixedUpdate()
         {
             if (forgetIt)
             {
@@ -84,8 +84,8 @@ namespace TimelineIso
 
 
             var intendedCameraPosition = this.transform.position + (average - lineDiff);
-            m_LookAheadPos = Vector3.MoveTowards(intendedCameraPosition, this.transform.position, Time.deltaTime * 1f);
-            Vector3 newPos = Vector3.SmoothDamp(transform.position, m_LookAheadPos, ref m_CurrentVelocity, damping);
+            //m_LookAheadPos = Vector3.MoveTowards(this.transform.position, intendedCameraPosition, Time.deltaTime * maxspeed);
+            Vector3 newPos = Vector3.SmoothDamp(transform.position, intendedCameraPosition, ref m_CurrentVelocity, damping);
             var newSize = Mathf.SmoothDamp(camera.orthographicSize, maxD, ref sizeSpd, damping);
             //.smooth.SmoothDamp(transform.position, m_LookAheadPos, ref m_CurrentVelocity, damping);
 
