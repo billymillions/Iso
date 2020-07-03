@@ -20,7 +20,6 @@ namespace TimelineIso
         {
             this.rb = this.GetComponent<Rigidbody>();
             this.em = this.GetComponent<EntityMove>();
-            this.kinematic = this.rb.isKinematic;
         }
 
 

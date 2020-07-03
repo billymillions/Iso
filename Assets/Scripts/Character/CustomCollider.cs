@@ -20,29 +20,16 @@ public class CustomCollider : MonoBehaviour
         OnEnable();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnEnable()
     {
-        //if (isSet)
-        //{
-        //    cl.color = neutralColor;
-        //}
-        //else
-        //{
-        //    isSet = true;
-        //}
     }
 
 
     private void OnTriggerEnter(Collider other)
     {
+        var enemy = other.GetComponent<Enemy>();
         var characterHealth = other.GetComponent<CharacterHealth>();
-        if (characterHealth)
+        if (enemy && characterHealth)
         {
             characterHealth.InflictDamage(15);
         }

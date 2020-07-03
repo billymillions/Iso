@@ -47,13 +47,18 @@ namespace TimelineIso
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.CompareTag("Enemy"))
+            var enemy = other.GetComponent<Enemy>();
+            var health = other.GetComponent<CharacterHealth>();
+            if (enemy)
             {
-                other.gameObject.GetComponent<CharacterHealth>().InflictDamage(10);
+                if (health)
+                {
+                    health.InflictDamage(10);
+                }
+                this.Speed = 0;
+                this.GetComponent<Renderer>().enabled = false;
+                Destroy(this.gameObject, .3f);
             }
-            this.Speed = 0;
-            this.GetComponent<Renderer>().enabled = false;
-            Destroy(this.gameObject, .3f);
         }
     }
 }
