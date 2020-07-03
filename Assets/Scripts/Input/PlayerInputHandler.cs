@@ -149,8 +149,7 @@ namespace TimelineIso
 
         public void OnSnap(InputValue value)
         {
-            this.timeline.CurrentIndex = 0;
-            this.timeline.IsSnap = true;
+            this.timeline.SnapBack();
         }
 
     }

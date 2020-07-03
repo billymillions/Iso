@@ -22,7 +22,8 @@ namespace TimelineIso
         {
             this.timeline = GameObject.Find("Timeline").GetComponent<TimelineMono>().Timeline;
             var rect = this.GetComponent<RectTransform>();
-            rect.localScale = new Vector3(1f * timeline.CurrentIndex / timeline.MaxIndex, rect.localScale.y, rect.localScale.z);
+            var indexOffset = (timeline.CurrentIndex + timeline.TimelineSize - timeline.StartIndex) % timeline.TimelineSize;
+            rect.localScale = new Vector3(((float)indexOffset) / timeline.TimelineSize, rect.localScale.y, rect.localScale.z);
 
         }
     }

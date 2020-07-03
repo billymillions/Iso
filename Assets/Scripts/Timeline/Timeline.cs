@@ -26,19 +26,24 @@ namespace TimelineIso
     [System.Serializable]
     public class Timeline
     {
-        private List<TimelineFrame> frames;
+        //private List<TimelineFrame> frames;
+        private TimelineFrame[] frames;
         bool isReverse;
         bool isSnap;
 
-        public int CurrentIndex { get; set; }
-        public readonly int MaxIndex = 1000;
+        public readonly int TimelineSize = 2000;
+        public int CurrentIndex = 0;
+        public int StartIndex = 0;
 
 
         public Timeline()
         {
             isReverse = false;
-            frames = new List<TimelineFrame>();
-            this.Advance();
+            frames = new TimelineFrame[TimelineSize];
+            for (int i = 0; i<TimelineSize; i++)
+            {
+                frames[i] = new TimelineFrame();
+            }
             CurrentIndex = 0;
         }
 
@@ -50,21 +55,29 @@ namespace TimelineIso
         public void Advance()
         {
             CurrentIndex += 1;
-            if (CurrentIndex >= frames.Count)
+            CurrentIndex %= TimelineSize;
+            if (CurrentIndex == StartIndex)
             {
-                frames.Add(new TimelineFrame());
+                StartIndex = (CurrentIndex + 1) % TimelineSize;
+                frames[StartIndex] = new TimelineFrame();
             }
         }
+
         public void FallBack()
         {
-            CurrentIndex -= 1;
-            CurrentIndex = (CurrentIndex < 0) ? 0 : CurrentIndex;
+            if (CurrentIndex == StartIndex)
+            {
+                CurrentIndex = StartIndex;
+                return;
+            }
+            CurrentIndex = (CurrentIndex - 1) % TimelineSize;
         }
 
         public void ForgetTheFuture(EntityIdentifier id)
         {
-            foreach(var f in this.frames.Skip(CurrentIndex + 1))
+            for(int i = (CurrentIndex + 1) % TimelineSize; i != StartIndex; i = (i + 1) % TimelineSize)
             {
+                var f = frames[i];
                 f.RemoveAll((x) => x.id.Equals(id));
             }
         }
@@ -104,6 +117,12 @@ namespace TimelineIso
             {
                 result = maybeValue.Value;
             }
+        }
+
+        internal void SnapBack()
+        {
+            this.CurrentIndex = StartIndex;
+            this.isSnap = true;
         }
     }
 }
