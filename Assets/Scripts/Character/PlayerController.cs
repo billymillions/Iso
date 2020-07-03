@@ -78,6 +78,13 @@ namespace TimelineIso
         {
             if (si.input is ButtonInput b)
             {
+                if (b.button_name == "Debug")
+                {
+                    Debug.Log(this.transform.position.x);
+                    Debug.Log(this.transform.position.z);
+                    return new CommandInput{ };
+                }
+
                 var ability = abilityDict[b.button_name];
                 return new CommandInput { button = b, targetAbility = ability};
             }

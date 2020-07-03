@@ -41,10 +41,28 @@ namespace TimelineIso
         void FixedUpdate()
         {
             var lookInputs = this.inputBuffer.GetInputs(entityId).OfType<LookInput>();
-            foreach (var input in lookInputs)
+            var lockonInputs = this.inputBuffer.GetInputs(entityId).OfType<LockonInput>();
+
+            if (lockonInputs.Count() >= 1)
             {
-                LockOn(input.look);
+                if (this.locked)
+                {
+                    this.locked = null;
+                } else
+                {
+                    LockOn(this.transform.position, this.transform.forward);
+                }
+                return;
             }
+
+            if (this.locked)
+            {
+                foreach (var input in lookInputs)
+                {
+                    LockOn(locked.transform.position, input.look);
+                }
+            }
+
         }
 
         public Enemy ClosestSighted(Vector3 look)
@@ -55,8 +73,8 @@ namespace TimelineIso
 
             foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
             {
-                var enemyRay = (enemy.transform.position - this.transform.position).XZPlane().normalized;
-                var dot = Vector3.Dot(normalized, enemyRay);
+                var enemyRay = (enemy.transform.position - this.transform.position).XZPlane();
+                var dot = Vector3.Dot(normalized, enemyRay.normalized) / enemyRay.magnitude;
                 if (dot > min)
                 {
                     newLock = enemy;
@@ -66,7 +84,7 @@ namespace TimelineIso
         }
 
 
-        public void LockOn(Vector3 look)
+        public void LockOn(Vector3 position, Vector3 look)
         {
             if (look.magnitude < .8)
             {
@@ -74,19 +92,24 @@ namespace TimelineIso
             }
 
             var normalized = look.normalized;
-            var min = .8;
+            var minAngle = .8;
+            var minDistance = 1000f;
             Enemy newLock = null;
 
             foreach (var enemy in GameObject.FindObjectsOfType<Enemy>())
             {
-                var enemyRay = (enemy.transform.position - this.transform.position).XZPlane().normalized;
-                var dot = Vector3.Dot(normalized, enemyRay);
-                if (dot > min)
+                var enemyRay = (enemy.transform.position - position).XZPlane();
+                var dot = Vector3.Dot(normalized, enemyRay.normalized);
+                if (dot > minAngle && enemyRay.magnitude < minDistance)
                 {
+                    minDistance = enemyRay.magnitude;
                     newLock = enemy;
                 }
             }
-            this.locked = newLock;
+            if (newLock)
+            {
+                this.locked = newLock;
+            }
             //if (newLock)
             //{
             //    this.GetComponent<Animator>().SetBool("Locked", true);

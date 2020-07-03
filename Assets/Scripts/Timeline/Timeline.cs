@@ -30,11 +30,11 @@ namespace TimelineIso
         private TimelineFrame[] frames;
         bool isReverse;
         bool isSnap;
+        bool isPrepare;
 
         public readonly int TimelineSize = 2000;
         public int CurrentIndex = 0;
         public int StartIndex = 0;
-
 
         public Timeline()
         {
@@ -49,6 +49,7 @@ namespace TimelineIso
 
         public bool IsReverse { get => isReverse; set => isReverse = value; }
         public bool IsSnap { get => isSnap; set => isSnap = value; }
+        public bool IsPrepare { get => isPrepare; set => isPrepare = value; }
 
         public TimelineFrame currentFrame { get => frames[CurrentIndex]; }
 
@@ -75,7 +76,8 @@ namespace TimelineIso
 
         public void ForgetTheFuture(EntityIdentifier id)
         {
-            for(int i = (CurrentIndex + 1) % TimelineSize; i != StartIndex; i = (i + 1) % TimelineSize)
+            currentFrame.RemoveAll((x) => x.id.Equals(id));
+            for (int i = (CurrentIndex + 1) % TimelineSize; i != StartIndex; i = (i + 1) % TimelineSize)
             {
                 var f = frames[i];
                 f.RemoveAll((x) => x.id.Equals(id));
@@ -123,6 +125,11 @@ namespace TimelineIso
         {
             this.CurrentIndex = StartIndex;
             this.isSnap = true;
+        }
+
+        internal void PrepareSnap()
+        {
+            this.isPrepare = true;
         }
     }
 }

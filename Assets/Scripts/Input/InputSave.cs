@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Linq;
 using UnityEngine.InputSystem;
+using Boo.Lang;
 
 namespace TimelineIso
 {
@@ -31,14 +32,19 @@ namespace TimelineIso
             else
             {
                 // TODO clearing / ordering
+                var newInputs = new List<AssignedInput>();
 
                 foreach (var input in this.inputBuffer.Inputs)
                 {
+                    if (input.input is LockonInput)
+                    {
+                        Debug.Log("yo");
+                    }
                     // clear any player timeline player inputs if we've received realtime input
                     timeline.ForgetTheFuture(input.identifier);
+                    newInputs.Add(input);
                 }
 
-                // TODO: double add
                 foreach (var input in this.timeline.currentFrame.Select(x => x.item).OfType<AssignedInput>())
                 {
                     // THEN add timeline inputs to the input buffer
@@ -50,7 +56,7 @@ namespace TimelineIso
                     }
                 }
 
-                foreach (var input in this.inputBuffer.Inputs)
+                foreach (var input in newInputs)
                 {
                     // THEN re-remember inputs
                     this.timeline.Remember(input.identifier, input);

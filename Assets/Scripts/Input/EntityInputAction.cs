@@ -52,6 +52,11 @@ namespace TimelineIso
     }
 
     [System.Serializable]
+    public struct LockonInput : IInputEvent
+    {
+    }
+
+    [System.Serializable]
     public struct AttackInput : IInputEvent
     {
     }

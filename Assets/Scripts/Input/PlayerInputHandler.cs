@@ -55,6 +55,11 @@ namespace TimelineIso
             var look = new LookInput { look = heading };
             inputBuffer.AddInput(CharSelector.SelectedCharacter, look);
         }
+        public void OnLockon(InputValue v)
+        {
+            inputBuffer.AddInput(CharSelector.SelectedCharacter, new LockonInput { });
+        }
+
 
         public void OnCycle(InputValue v)
         {
@@ -67,12 +72,6 @@ namespace TimelineIso
         {
             var move = new MoveInput { move = heading };
             inputBuffer.AddInput(CharSelector.SelectedCharacter, move);
-
-            //var gameObjEntity = this.CharSelector.SelectedCharacter.GetComponent<GameObjectEntity>();
-            //var entityIdentifier = gameObjEntity.EntityManager.GetComponentData<EntityIdentifier>(gameObjEntity.Entity);
-            //var move = new MoveAction { move = heading };
-            //var assignedInput = new AssignedInput { identifier = entityIdentifier, input = move };
-            //this.inputBuffer.AddInput(entityIdentifier, move);
         }
 
         public void OnCycleLeft(InputValue value)
@@ -146,10 +145,28 @@ namespace TimelineIso
             inputBuffer.AddInput(CharSelector.SelectedCharacter, dash);
             inputBuffer.AddInput(CharSelector.SelectedCharacter, button);
         }
+        public void OnDebug(InputValue value)
+        {
+            SaveButton(value, "Debug");
+        }
 
         public void OnSnap(InputValue value)
         {
-            this.timeline.SnapBack();
+            //this.timeline.SnapBack();
+            //this.timeline.IsSnap = true;
+            this.timeline.PrepareSnap();
+        }
+
+        public void SaveButton(InputValue value, string name)
+        {
+            var button = new ButtonInput
+            {
+                is_press = value.isPressed,
+                is_release = !value.isPressed,
+                button_name = name,
+                value = value.Get<float>()
+            };
+            inputBuffer.AddInput(CharSelector.SelectedCharacter, button);
         }
 
     }

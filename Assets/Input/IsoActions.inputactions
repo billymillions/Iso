@@ -38,6 +38,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Debug",
+                    "type": "Button",
+                    "id": "a0b5a333-57e2-49c5-a82e-f7cfa5e5a3d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Shoot",
                     "type": "Button",
                     "id": "bbb9804f-3c71-4abc-92c7-f33bc72ae572",
@@ -73,6 +81,14 @@
                     "name": "Snap",
                     "type": "Button",
                     "id": "e1b08567-cf43-43bf-bc3d-b67261d042e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Lockon",
+                    "type": "Button",
+                    "id": "52439b5d-835e-41ac-93db-6e9ded9ae627",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press"
@@ -351,6 +367,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Snap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a1212e3c-8e91-464b-9675-2a18ae0319f1",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Debug",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d07aefc1-044e-4b2b-a87c-23149e13a972",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Joystick",
+                    "action": "Lockon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

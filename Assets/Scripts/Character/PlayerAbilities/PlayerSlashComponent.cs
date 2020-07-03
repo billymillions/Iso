@@ -70,7 +70,6 @@ namespace TimelineIso
             {
                 Destroy(this.SwordComboInstance); 
             }
-            this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
             this.allowInterrupt = true;
             this._status = PlayerAbilityStatus.Finished;
         } 
@@ -120,9 +119,10 @@ namespace TimelineIso
         IEnumerator OpenComboWindow()
         {
             this.allowInterrupt = true;
+            this.GetComponent<PlayerMovement>().SpeedMultiplier = 1f;
             this.comboCounter = (this.comboCounter + 1) % this.ComboClips.Length;
             // TODO: control animation speed and this window with the same scale?
-            yield return new WaitForSeconds(this.ComboWindow);
+            yield return new WaitForFixedSeconds(this.ComboWindow);
             this.comboCounter = 0;
         }
 

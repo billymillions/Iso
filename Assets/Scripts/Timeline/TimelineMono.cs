@@ -16,7 +16,25 @@ namespace TimelineIso
         private void FixedUpdate()
         {
             // TODO: this is awful
-            Timeline.IsSnap = false;
+            if (Timeline.IsPrepare)
+            {
+                Timeline.IsPrepare = false;
+                Timeline.IsSnap = true;
+                Timeline.CurrentIndex = Timeline.StartIndex;
+            }
+            else if (Timeline.IsSnap)
+            {
+                Timeline.IsSnap = false;
+                //Timeline.SnapBack();
+            }
+            else if (Timeline.IsReverse)
+            {
+                Timeline.FallBack();
+            }
+            else
+            {
+                Timeline.Advance();
+            }
         }
 
         public static Timeline GetForScene()
