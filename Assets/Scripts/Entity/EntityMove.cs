@@ -73,12 +73,13 @@ namespace TimelineIso
             }
         }
 
-        public void MoveDelta(Vector3 delta)
+        public CollisionFlags MoveDelta(Vector3 delta)
         {
             // TODO: maybe aggregate instead and move on fixedupdate
             if (this.MovementType == MovementType.CharacterController)
             {
                 var coll = this.cc.Move(delta);
+                return coll;
             }
             else if (this.MovementType == MovementType.RigidBody)
             {
@@ -93,6 +94,7 @@ namespace TimelineIso
             {
                 this.transform.Translate(delta, Space.World);
             }
+            return CollisionFlags.None;
         }
         public void MoveVelocity(Vector3 velocity)
         {

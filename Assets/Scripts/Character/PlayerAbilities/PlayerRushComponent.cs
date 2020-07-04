@@ -21,7 +21,9 @@ namespace TimelineIso
         private GameObject ChargeEffectInstance;
         private ContiguousInputSave contiguousInput;
         private PlayerInput playerInput;
+        private PlayerMovement movement;
         private GlobalInputCache globalInput;
+        private EntityMove em;
 
         public override void Initialize()
         {
@@ -64,6 +66,8 @@ namespace TimelineIso
             this.contiguousInput = GameObject.Find("GlobalInputCache").GetComponent<ContiguousInputSave>();
             this.globalInput = GameObject.Find("GlobalInputCache").GetComponent<GlobalInputCache>();
             this.playerInput = GameObject.Find("GlobalInputCache").GetComponent<PlayerInput>();
+            this.movement = this.GetComponent<PlayerMovement>();
+            this.em = this.GetComponent<EntityMove>();
         }
 
 
@@ -89,11 +93,12 @@ namespace TimelineIso
 
         IEnumerator ChargeCoroutine()
         {
-            var movement = this.GetComponent<PlayerMovement>();
+            //var movement = this.GetComponent<PlayerMovement>();
             var entityId = this.GetComponent<EntityComponent>().identifier;
             var start = Time.time;
             movement.SpeedMultiplier = 0f;
             var facing = this.transform.forward;
+            var frames = 0;
 
             while (this.contiguousInput.ReadValue<float>(entityId, this.Command) > 0)
             {
@@ -105,34 +110,43 @@ namespace TimelineIso
                 {
                     facing = this.transform.forward.XZPlane();
                 }
-                yield return null;
+                yield return new WaitForFixedUpdate();
+                frames += 1;
             }
+            var time = frames * Time.fixedDeltaTime;
 
-            if (Time.time - start <= this.MinHold)
+            if (time <= this.MinHold)
             {
                 Finish();
             }
             else
             {
                 ClearState();
-                StartCoroutine(RushCoroutine(Time.time - start, facing));
+                StartCoroutine(RushCoroutine(time, facing));
             }
         }
 
-        IEnumerator RushCoroutine(float duration, Vector3 direction)
+        IEnumerator RushCoroutine(float chargeDuration, Vector3 direction)
         {
             var startTime = Time.time;
             var rigidbody = this.GetComponent<Rigidbody>();
-            duration = Math.Min(duration, ChargeDuration);
-            var speed = MaxDistance / RushDuration;
-            var coroutineDuration = (duration / ChargeDuration) * RushDuration;
+            var ratio = Math.Min(chargeDuration / ChargeDuration, 1f);
+            var distance = MaxDistance * ratio;
+            var coroutineDuration = RushDuration * ratio;
+            var numFrames = Math.Max(1, (int) (coroutineDuration / Time.fixedDeltaTime));
+            var delta = (direction.XZPlane().normalized * distance) / numFrames;
 
-            while (Time.time < startTime + coroutineDuration)
+            for (int i = 0; i < numFrames; i ++)
             {
-                rigidbody.velocity = direction * speed;
-                yield return null;
+                var result = this.em.MoveDelta(delta);
+                yield return new WaitForFixedUpdate();
+                if ((result & CollisionFlags.Sides) > 0)
+                {
+                    // TODO
+                    this.GetComponent<Impulse>().Displace(-2f * delta.normalized, .1f);
+                    break;
+                }
             }
-            rigidbody.velocity = this.transform.forward * 0;
             Finish();
         }
         private void ClearState()
